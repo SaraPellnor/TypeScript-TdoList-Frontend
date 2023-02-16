@@ -1,6 +1,5 @@
 const logInForm: HTMLElement | null = document.querySelector(".loginContainer")
-const emojiContaioner = document.createElement("div")
-emojiContaioner.setAttribute("class", "emojiContaioner")
+
 
 function registerNewUser(): void {
   const username: HTMLInputElement | null = document.querySelector("#newUsername");
@@ -98,8 +97,14 @@ function succesess() {
           emojiDiv.innerText = emoji.character
         }
       })
-      
+
     emojiDiv.addEventListener("mouseover", () => { getEmoji(bodyContainer, emojiDiv) })
+
+    const colorPicker = document.createElement("div")
+    colorPicker.setAttribute("class", "colorPicker")
+    colorPicker.addEventListener("mouseover", () => { getColor }) // <-------------------- 
+    
+   
 
     const btn = document.createElement("button")
     btn.setAttribute("class", "todoBtn")
@@ -109,7 +114,7 @@ function succesess() {
 
     document.body.append(todoContainer)
     todoContainer.append(form)
-    form.append(title, titleInput, bodyContainer, btn)
+    form.append(title, titleInput, bodyContainer, colorPicker, btn)
     bodyContainer.append(body, bodyInput, emojiDiv)
 
   } else {
@@ -119,6 +124,8 @@ function succesess() {
 }
 
 function getEmoji(bodyContainer: HTMLDivElement, emojiDiv: HTMLDivElement) {
+  const emojiContaioner = document.createElement("div")
+  emojiContaioner.setAttribute("class", "emojiContaioner")
   emojiContaioner.innerHTML = ""
 
   fetch("https://emoji-api.com/categories/smileys-emotion?access_key=50ba7358ffceaa5c8a0cc996ecc01b052e4d7ceb")
@@ -142,10 +149,14 @@ function getEmoji(bodyContainer: HTMLDivElement, emojiDiv: HTMLDivElement) {
       });
     })
 
-  emojiContaioner.addEventListener("mouseleave", () => { emojiContaioner.innerHTML = "" })
+  emojiContaioner.addEventListener("mouseleave", () => { 
+    emojiContaioner.style.display = "none" 
+  })
 }
 
-
+function getColor () {
+// <------------------------------------------------------------------- Hämta jsonfilen och skapa knappar för varje färg som sätter samma färg på knapparna!!!! 
+}
 
 function createTodo() {
 

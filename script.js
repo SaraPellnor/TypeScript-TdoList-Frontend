@@ -1,6 +1,4 @@
 var logInForm = document.querySelector(".loginContainer");
-var emojiContaioner = document.createElement("div");
-emojiContaioner.setAttribute("class", "emojiContaioner");
 function registerNewUser() {
     var username = document.querySelector("#newUsername");
     var password = document.querySelector("#newUserPassword");
@@ -83,6 +81,9 @@ function succesess() {
             }
         });
         emojiDiv_1.addEventListener("mouseover", function () { getEmoji(bodyContainer_1, emojiDiv_1); });
+        var colorPicker = document.createElement("div");
+        colorPicker.setAttribute("class", "colorPicker");
+        colorPicker.addEventListener("mouseover", function () { getColor; }); // <-------------------- 
         var btn = document.createElement("button");
         btn.setAttribute("class", "todoBtn");
         btn.setAttribute("type", "button");
@@ -90,7 +91,7 @@ function succesess() {
         btn.addEventListener("click", createTodo);
         document.body.append(todoContainer);
         todoContainer.append(form);
-        form.append(title, titleInput, bodyContainer_1, btn);
+        form.append(title, titleInput, bodyContainer_1, colorPicker, btn);
         bodyContainer_1.append(body, bodyInput, emojiDiv_1);
     }
     else {
@@ -98,6 +99,8 @@ function succesess() {
     }
 }
 function getEmoji(bodyContainer, emojiDiv) {
+    var emojiContaioner = document.createElement("div");
+    emojiContaioner.setAttribute("class", "emojiContaioner");
     emojiContaioner.innerHTML = "";
     fetch("https://emoji-api.com/categories/smileys-emotion?access_key=50ba7358ffceaa5c8a0cc996ecc01b052e4d7ceb")
         .then(function (response) { return response.json(); })
@@ -114,7 +117,12 @@ function getEmoji(bodyContainer, emojiDiv) {
             bodyContainer.append(emojiContaioner);
         });
     });
-    emojiContaioner.addEventListener("mouseleave", function () { emojiContaioner.innerHTML = ""; });
+    emojiContaioner.addEventListener("mouseleave", function () {
+        emojiContaioner.style.display = "none";
+    });
+}
+function getColor() {
+    // <------------------------------------------------------------------- Hämta jsonfilen och skapa knappar för varje färg som sätter samma färg på knapparna!!!! 
 }
 function createTodo() {
     var title = document.querySelector(".titleInput");

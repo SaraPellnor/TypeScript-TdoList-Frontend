@@ -61,10 +61,20 @@ body {
   }
 
   .emojiContaioner {
+    background-color: white;
     position: absolute;
-    top: 0;
-    left: 75%;
-    width: 250px;
+    top: 50px;
+    left: 250px;
+    height: 300px;
+    width: 70px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    
 
 
+  }
+
+  .emojiContaioner button {
+    background-color: white;
+    font-size: 20pt;
   }
