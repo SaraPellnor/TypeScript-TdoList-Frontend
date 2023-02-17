@@ -48,9 +48,14 @@ body {
 
   /* ----- Logged In*/
 
-  .emojiDiv {
+   .emojiDiv {
     background-color: none;
     font-size: 30pt;
+  }
+
+  .colorPicker {
+    background-color: white;
+    width: 50px;
   }
 
   .bodyContainer {
@@ -60,7 +65,7 @@ body {
 
   }
 
-  .emojiContaioner {
+  .colorContaioner, .emojiContaioner {
     background-color: white;
     position: absolute;
     top: 50px;
@@ -74,7 +79,21 @@ body {
 
   }
 
+  .colorContaioner {
+    height: 100px;
+    width: 100px;
+    left: 330px;
+  }
+
   .emojiContaioner button {
     background-color: white;
     font-size: 20pt;
+  }
+
+  .colorBtn {
+    border: 1px solid black;
+  }
+
+  .create-todo-ul {
+    list-style: none;
   }

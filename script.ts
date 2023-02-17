@@ -1,42 +1,68 @@
+// ----- Imported from HTML Document
+
 const logInForm: HTMLElement | null = document.querySelector(".loginContainer")
 
+// ----- Created global variables
 
-function registerNewUser(): void {
-  const username: HTMLInputElement | null = document.querySelector("#newUsername");
-  const password: HTMLInputElement | null = document.querySelector("#newUserPassword");
-  const confirmPassword: HTMLInputElement | null = document.querySelector("#confirmPassword");
+const todoContainer = document.createElement("div")
+todoContainer.setAttribute("class", "todoContainer")
 
-  if (confirmPassword?.value === username?.value) {
+// - Belongs to "createTodo" Function
+const todoList: HTMLElement | null = document.createElement("div")
+todoList.setAttribute("class", "todoList")
+const ul = document.createElement("ul")
+ul.setAttribute("class", "create-todo-ul")
 
-    fetch("http://localhost:3000/products/post/", {
-      method: "POST",
-      body: JSON.stringify({
-        username: username?.value,
-        password: password?.value
-      }),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
+
+// -----Function to register a new user and saves it in DB
+
+function registerNewUser() {
+  try {
+    // - Imports from HTML Document
+    const username: HTMLInputElement | null = document.querySelector("#newUsername");
+    const password: HTMLInputElement | null = document.querySelector("#newUserPassword");
+    const confirmPassword: HTMLInputElement | null = document.querySelector("#confirmPassword");
+
+    // - Checks if password and confirmed password is the same
+    if (password?.value === confirmPassword?.value) {
+
+      // - POST to connect with backend
+      fetch("http://localhost:3000/products/post/", {
+        method: "POST",
+        body: JSON.stringify({
+          username: username?.value,
+          password: password?.value
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        }
       })
-      .catch(error => {
-        console.log(error);
-      });
-  } else {
-    console.log("Confirm password is not equal to password");
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } else {
+      console.log("Confirm password is not equal to password");
+    }
+  } catch (error) {
+    console.error(error);
   }
 }
 
 
+// ----- Function to login a user
+
 function logIn() {
   succesess()
-  // const username: HTMLInputElement | null = document.querySelector("#username");
-  // const password: HTMLInputElement | null = document.querySelector("#password");
+  // try {
+  //   // - Imports from HTML Document
+  //   const username: HTMLInputElement | null = document.querySelector("#username");
+  //   const password: HTMLInputElement | null = document.querySelector("#password");
 
-  // if (username && password) {
+  //   // - POST to connect with backend
   //   fetch("http://localhost:3000/products/post/", {
   //     method: "POST",
   //     body: JSON.stringify({
@@ -49,27 +75,30 @@ function logIn() {
   //   })
   //     .then(response => response.json())
   //     .then(data => {
-  //       console.log(data);
   //       succesess()
   //     })
   //     .catch(error => {
   //       console.log(error);
   //     });
-  // } else {
-  //   console.log("Wrong password or username");
+  // } catch (error) {
+  //   console.error(error);
   // }
-
 }
 
+
+// ----- Function for successful user login
+
 function succesess() {
+
+  // - Checks if logInForm is true
   if (logInForm) {
-
+    
+    // - Makes loginForm disappear and todoContainer to appear
     logInForm.style.display = "none"
+    todoContainer.style.display = "block"
 
-    const todoContainer = document.createElement("div")
-    todoContainer.setAttribute("class", "todoContainer")
-
-    const form = document.createElement("form")
+    // - Creates elements
+    const todoForm = document.createElement("form")
 
     const title = document.createElement("label")
     title.setAttribute("class", "title")
@@ -87,6 +116,11 @@ function succesess() {
 
     const bodyInput = document.createElement("input")
     bodyInput.setAttribute("class", "bodyInput")
+    bodyInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        createTodo(colorPicker, bodyInput, emojiDiv)
+      }
+    })
 
     const emojiDiv = document.createElement("div")
     emojiDiv.setAttribute("class", "emojiDiv")
@@ -102,20 +136,21 @@ function succesess() {
 
     const colorPicker = document.createElement("div")
     colorPicker.setAttribute("class", "colorPicker")
-    colorPicker.addEventListener("mouseover", () => { getColor }) // <-------------------- 
-    
-   
+
+    colorPicker.addEventListener("mouseover", () => { getColor(bodyContainer, colorPicker) })
+
+
 
     const btn = document.createElement("button")
     btn.setAttribute("class", "todoBtn")
     btn.setAttribute("type", "button")
     btn.innerText = "Submit"
-    btn.addEventListener("click", createTodo)
+    btn.addEventListener("click", createList)
 
     document.body.append(todoContainer)
-    todoContainer.append(form)
-    form.append(title, titleInput, bodyContainer, colorPicker, btn)
-    bodyContainer.append(body, bodyInput, emojiDiv)
+    todoContainer.append(todoForm)
+    todoForm.append(title, titleInput, bodyContainer, btn)
+    bodyContainer.append(body, bodyInput, emojiDiv, colorPicker)
 
   } else {
     console.log("there is no form");
@@ -134,7 +169,7 @@ function getEmoji(bodyContainer: HTMLDivElement, emojiDiv: HTMLDivElement) {
       data.slice(0, 40).forEach((element: any) => {
 
         const btn = document.createElement("button")
-        btn.setAttribute("class", "todoBtn")
+        btn.setAttribute("class", "emojiBtn")
         btn.setAttribute("type", "button")
         btn.addEventListener("click", () => {
 
@@ -149,16 +184,69 @@ function getEmoji(bodyContainer: HTMLDivElement, emojiDiv: HTMLDivElement) {
       });
     })
 
-  emojiContaioner.addEventListener("mouseleave", () => { 
-    emojiContaioner.style.display = "none" 
+  emojiContaioner.addEventListener("mouseleave", () => {
+    emojiContaioner.style.display = "none"
   })
 }
 
-function getColor () {
-// <------------------------------------------------------------------- Hämta jsonfilen och skapa knappar för varje färg som sätter samma färg på knapparna!!!! 
+async function getColor(bodyContainer: HTMLDivElement, colorPicker: HTMLDivElement) {
+  const colorContaioner = document.createElement("div")
+  colorContaioner.setAttribute("class", "colorContaioner")
+  colorContaioner.innerHTML = ""
+
+
+  const response = await fetch("./colors.json")
+  const data: any = await response.json()
+
+
+
+  await [data].forEach((element: any) => {
+    element.forEach((color: string) => {
+
+
+
+      const btn = document.createElement("button")
+      btn.setAttribute("class", "colorBtn")
+      btn.setAttribute("type", "button")
+      btn.addEventListener("click", () => {
+
+
+        colorPicker.style.backgroundColor = color
+      })
+
+
+      btn.style.backgroundColor = color
+      colorContaioner.append(btn)
+      bodyContainer.append(colorContaioner)
+    })
+  })
+
+
+  colorContaioner.addEventListener("mouseleave", () => {
+    colorContaioner.style.display = "none"
+  })
+
+
 }
 
-function createTodo() {
+function createTodo(colorPicker: HTMLDivElement, bodyInput: HTMLInputElement, emojiDiv: HTMLDivElement) {
+
+  const li = document.createElement("li")
+  li.setAttribute("class", "create-todo-li")
+  li.style.color = colorPicker.style.backgroundColor
+
+  if (todoList) {
+    todoContainer.append(todoList)
+    todoList.append(ul)
+    ul.append(li)
+    li.append(bodyInput.value, emojiDiv.innerText)
+  }
+
+
+
+}
+
+function createList() {
 
   const title: HTMLInputElement | null = document.querySelector(".titleInput");
   const todo: HTMLInputElement | null = document.querySelector(".bodyInput");
@@ -169,7 +257,7 @@ function createTodo() {
       method: "POST",
       body: JSON.stringify({
         title: title?.value,
-        password: todo?.value
+        todo: todo?.value
       }),
       headers: {
         "Content-Type": "application/json"
