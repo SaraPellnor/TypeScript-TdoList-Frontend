@@ -126,7 +126,7 @@ function succesess() {
         btn.setAttribute("class", "todoBtn");
         btn.setAttribute("type", "button");
         btn.innerText = "Submit";
-        btn.addEventListener("click", createList);
+        // btn.addEventListener("click", createList)
         document.body.append(todoContainer);
         todoContainer.append(todoForm);
         todoForm.append(title, titleInput, bodyContainer, btn);
@@ -195,31 +195,30 @@ function createTodo(colorPicker, bodyInput, emojiDiv) {
         li.append(bodyInput.value, emojiDiv.innerText);
     }
 }
-function createList() {
-    const title = document.querySelector(".titleInput");
-    const todo = document.querySelector(".bodyInput");
-    if (title && todo) {
-        fetch("http://localhost:3000/products/post/", {
-            method: "POST",
-            body: JSON.stringify({
-                title: title === null || title === void 0 ? void 0 : title.value,
-                todo: todo === null || todo === void 0 ? void 0 : todo.value
-            }),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-            console.log(data);
-        })
-            .catch(error => {
-            console.log(error);
-        });
-    }
-    else {
-        console.log("Inputs is empty");
-    }
-}
+// function createList() {
+//   const title: HTMLInputElement | null = document.querySelector(".titleInput");
+//   const todo: HTMLInputElement | null = document.querySelector(".bodyInput");
+//   if (title && todo) {
+//     fetch("http://localhost:3000/products/post/", {
+//       method: "POST",
+//       body: JSON.stringify({
+//         title: title?.value,
+//         todo: todo?.value
+//       }),
+//       headers: {
+//         "Content-Type": "application/json"
+//       }
+//     })
+//       .then(response => response.json())
+//       .then(data => {
+//         console.log(data);
+//       })
+//       .catch(error => {
+//         console.log(error);
+//       });
+//   } else {
+//     console.log("Inputs is empty");
+//   }
+// }
 function logOut() {
 }

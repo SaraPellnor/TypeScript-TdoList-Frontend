@@ -145,7 +145,7 @@ function succesess() {
     btn.setAttribute("class", "todoBtn")
     btn.setAttribute("type", "button")
     btn.innerText = "Submit"
-    btn.addEventListener("click", createList)
+    // btn.addEventListener("click", createList)
 
     document.body.append(todoContainer)
     todoContainer.append(todoForm)
@@ -246,34 +246,34 @@ function createTodo(colorPicker: HTMLDivElement, bodyInput: HTMLInputElement, em
 
 }
 
-function createList() {
+// function createList() {
 
-  const title: HTMLInputElement | null = document.querySelector(".titleInput");
-  const todo: HTMLInputElement | null = document.querySelector(".bodyInput");
+//   const title: HTMLInputElement | null = document.querySelector(".titleInput");
+//   const todo: HTMLInputElement | null = document.querySelector(".bodyInput");
 
-  if (title && todo) {
+//   if (title && todo) {
 
-    fetch("http://localhost:3000/products/post/", {
-      method: "POST",
-      body: JSON.stringify({
-        title: title?.value,
-        todo: todo?.value
-      }),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  } else {
-    console.log("Inputs is empty");
-  }
-}
+//     fetch("http://localhost:3000/products/post/", {
+//       method: "POST",
+//       body: JSON.stringify({
+//         title: title?.value,
+//         todo: todo?.value
+//       }),
+//       headers: {
+//         "Content-Type": "application/json"
+//       }
+//     })
+//       .then(response => response.json())
+//       .then(data => {
+//         console.log(data);
+//       })
+//       .catch(error => {
+//         console.log(error);
+//       });
+//   } else {
+//     console.log("Inputs is empty");
+//   }
+// }
 
 
 function logOut() {
