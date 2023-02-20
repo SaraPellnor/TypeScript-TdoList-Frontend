@@ -8,6 +8,16 @@ const todoContainer = document.createElement("div")
 todoContainer.setAttribute("class", "todoContainer")
 
 // - Belongs to "createTodo" Function
+const todoArray: String[] = []
+interface todoObject 
+  {
+    body: 
+      {
+        todo: String,
+        emoji: String,
+        color: String
+      }
+  }
 const todoList: HTMLElement | null = document.createElement("div")
 todoList.setAttribute("class", "todoList")
 const ul = document.createElement("ul")
@@ -92,7 +102,7 @@ function succesess() {
 
   // - Checks if logInForm is true
   if (logInForm) {
-    
+
     // - Makes loginForm disappear and todoContainer to appear
     logInForm.style.display = "none"
     todoContainer.style.display = "block"
@@ -231,6 +241,15 @@ async function getColor(bodyContainer: HTMLDivElement, colorPicker: HTMLDivEleme
 
 function createTodo(colorPicker: HTMLDivElement, bodyInput: HTMLInputElement, emojiDiv: HTMLDivElement) {
 
+  const newTodo: todoObject =
+    {
+      body: 
+        {
+          todo: bodyInput.value,
+          emoji: emojiDiv.innerText,
+          color: colorPicker.style.backgroundColor
+        }
+    }
   const li = document.createElement("li")
   li.setAttribute("class", "create-todo-li")
   li.style.color = colorPicker.style.backgroundColor
@@ -242,6 +261,7 @@ function createTodo(colorPicker: HTMLDivElement, bodyInput: HTMLInputElement, em
     li.append(bodyInput.value, emojiDiv.innerText)
   }
 
+console.log(newTodo);
 
 
 }

@@ -14,6 +14,7 @@ const logInForm = document.querySelector(".loginContainer");
 const todoContainer = document.createElement("div");
 todoContainer.setAttribute("class", "todoContainer");
 // - Belongs to "createTodo" Function
+const todoArray = [];
 const todoList = document.createElement("div");
 todoList.setAttribute("class", "todoList");
 const ul = document.createElement("ul");
@@ -185,6 +186,13 @@ function getColor(bodyContainer, colorPicker) {
     });
 }
 function createTodo(colorPicker, bodyInput, emojiDiv) {
+    const newTodo = {
+        body: {
+            todo: bodyInput.value,
+            emoji: emojiDiv.innerText,
+            color: colorPicker.style.backgroundColor
+        }
+    };
     const li = document.createElement("li");
     li.setAttribute("class", "create-todo-li");
     li.style.color = colorPicker.style.backgroundColor;
@@ -194,6 +202,7 @@ function createTodo(colorPicker, bodyInput, emojiDiv) {
         ul.append(li);
         li.append(bodyInput.value, emojiDiv.innerText);
     }
+    console.log(newTodo);
 }
 // function createList() {
 //   const title: HTMLInputElement | null = document.querySelector(".titleInput");
