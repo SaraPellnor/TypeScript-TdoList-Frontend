@@ -1,15 +1,35 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
     background-color: #e6ffe6;
   }
+
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  color: #e6ffe6;
+  background-color: #1d1d1d;
+  padding: 20px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
   
-  .todoContainer, .loginContainer {
-    width: 400px;
-    margin: 0 auto;
-    text-align: center;
-    background-color: #a3d2ca;
-    padding: 30px;
-    border-radius: 10px;
-  }
+.todoContainer, .loginContainer {
+  padding: 20px;
+  width: 400px;
+  margin: 0 auto;
+  margin-top: 80px;
+  text-align: center;
+  background-color: #a3d2ca;
+  padding: 30px;
+  border-radius: 10px;
+}
   
   h2 {
     margin-bottom: 20px;

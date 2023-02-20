@@ -10,15 +10,28 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 const logInForm = document.querySelector(".loginContainer");
+const header = document.querySelector("header");
 // ----- Created global variables
+const logOutBtn = document.createElement("button");
+logOutBtn.setAttribute("class", "logOutBtn");
+logOutBtn.innerText = "Log out";
+logOutBtn.addEventListener("click", logOut);
+header === null || header === void 0 ? void 0 : header.append(logOutBtn);
 const todoContainer = document.createElement("div");
 todoContainer.setAttribute("class", "todoContainer");
 // - Belongs to "createTodo" Function
 const todoArray = [];
 const todoList = document.createElement("div");
 todoList.setAttribute("class", "todoList");
+const title = document.createElement("label");
+title.setAttribute("class", "title");
+title.innerText = "Title: ";
+const titleInput = document.createElement("input");
+titleInput.setAttribute("class", "titleInput");
 const ul = document.createElement("ul");
 ul.setAttribute("class", "create-todo-ul");
+const submitBtn = document.createElement("button");
+submitBtn.setAttribute("class", "submitBtn");
 // -----Function to register a new user and saves it in DB
 function registerNewUser() {
     try {
@@ -57,7 +70,7 @@ function registerNewUser() {
 }
 // ----- Function to login a user
 function logIn() {
-    succesess();
+    // todoContainer.innerHTML= ""
     // try {
     //   // - Imports from HTML Document
     //   const username: HTMLInputElement | null = document.querySelector("#username");
@@ -83,6 +96,7 @@ function logIn() {
     // } catch (error) {
     //   console.error(error);
     // }
+    succesess();
 }
 // ----- Function for successful user login
 function succesess() {
@@ -91,13 +105,9 @@ function succesess() {
         // - Makes loginForm disappear and todoContainer to appear
         logInForm.style.display = "none";
         todoContainer.style.display = "block";
+        logOutBtn.style.display = "block";
         // - Creates elements
         const todoForm = document.createElement("form");
-        const title = document.createElement("label");
-        title.setAttribute("class", "title");
-        title.innerText = "Title: ";
-        const titleInput = document.createElement("input");
-        titleInput.setAttribute("class", "titleInput");
         const bodyContainer = document.createElement("div");
         bodyContainer.setAttribute("class", "bodyContainer");
         const body = document.createElement("label");
@@ -105,11 +115,6 @@ function succesess() {
         body.innerText = "Todo: ";
         const bodyInput = document.createElement("input");
         bodyInput.setAttribute("class", "bodyInput");
-        bodyInput.addEventListener("keydown", (event) => {
-            if (event.key === "Enter") {
-                createTodo(colorPicker, bodyInput, emojiDiv);
-            }
-        });
         const emojiDiv = document.createElement("div");
         emojiDiv.setAttribute("class", "emojiDiv");
         fetch("https://emoji-api.com/emojis/winking-face-with-tongue?access_key=50ba7358ffceaa5c8a0cc996ecc01b052e4d7ceb")
@@ -119,18 +124,18 @@ function succesess() {
                 emojiDiv.innerText = emoji.character;
             }
         });
-        emojiDiv.addEventListener("mouseover", () => { getEmoji(bodyContainer, emojiDiv); });
+        emojiDiv.addEventListener("mouseenter", () => { getEmoji(bodyContainer, emojiDiv); });
         const colorPicker = document.createElement("div");
         colorPicker.setAttribute("class", "colorPicker");
-        colorPicker.addEventListener("mouseover", () => { getColor(bodyContainer, colorPicker); });
-        const btn = document.createElement("button");
-        btn.setAttribute("class", "todoBtn");
-        btn.setAttribute("type", "button");
-        btn.innerText = "Submit";
-        // btn.addEventListener("click", createList)
+        colorPicker.addEventListener("mouseenter", () => { getColor(bodyContainer, colorPicker); });
+        const addTodoBtn = document.createElement("button");
+        addTodoBtn.setAttribute("class", "todoBtn");
+        addTodoBtn.setAttribute("type", "button");
+        addTodoBtn.innerText = "Add Todo";
+        addTodoBtn.addEventListener("click", () => createTodo(colorPicker, bodyInput, emojiDiv));
         document.body.append(todoContainer);
         todoContainer.append(todoForm);
-        todoForm.append(title, titleInput, bodyContainer, btn);
+        todoForm.append(/*title, titleInput,*/ bodyContainer, addTodoBtn);
         bodyContainer.append(body, bodyInput, emojiDiv, colorPicker);
     }
     else {
@@ -162,9 +167,9 @@ function getEmoji(bodyContainer, emojiDiv) {
 }
 function getColor(bodyContainer, colorPicker) {
     return __awaiter(this, void 0, void 0, function* () {
-        const colorContaioner = document.createElement("div");
-        colorContaioner.setAttribute("class", "colorContaioner");
-        colorContaioner.innerHTML = "";
+        const colorContainer = document.createElement("div");
+        colorContainer.setAttribute("class", "colorContaioner");
+        colorContainer.innerHTML = "";
         const response = yield fetch("./colors.json");
         const data = yield response.json();
         yield [data].forEach((element) => {
@@ -176,58 +181,62 @@ function getColor(bodyContainer, colorPicker) {
                     colorPicker.style.backgroundColor = color;
                 });
                 btn.style.backgroundColor = color;
-                colorContaioner.append(btn);
-                bodyContainer.append(colorContaioner);
+                colorContainer.append(btn);
+                bodyContainer.append(colorContainer);
             });
         });
-        colorContaioner.addEventListener("mouseleave", () => {
-            colorContaioner.style.display = "none";
+        colorContainer.addEventListener("mouseleave", () => {
+            colorContainer.style.display = "none";
         });
     });
 }
 function createTodo(colorPicker, bodyInput, emojiDiv) {
     const newTodo = {
-        body: {
-            todo: bodyInput.value,
-            emoji: emojiDiv.innerText,
-            color: colorPicker.style.backgroundColor
-        }
+        todo: bodyInput.value,
+        emoji: emojiDiv.innerText,
+        color: colorPicker.style.backgroundColor
     };
+    todoArray.push(newTodo);
+    console.log(todoArray);
     const li = document.createElement("li");
     li.setAttribute("class", "create-todo-li");
     li.style.color = colorPicker.style.backgroundColor;
     if (todoList) {
         todoContainer.append(todoList);
-        todoList.append(ul);
+        todoList.append(title, titleInput, ul, submitBtn);
         ul.append(li);
         li.append(bodyInput.value, emojiDiv.innerText);
     }
-    console.log(newTodo);
+    submitBtn.addEventListener("click", () => { createList(titleInput); });
 }
-// function createList() {
-//   const title: HTMLInputElement | null = document.querySelector(".titleInput");
-//   const todo: HTMLInputElement | null = document.querySelector(".bodyInput");
-//   if (title && todo) {
-//     fetch("http://localhost:3000/products/post/", {
-//       method: "POST",
-//       body: JSON.stringify({
-//         title: title?.value,
-//         todo: todo?.value
-//       }),
-//       headers: {
-//         "Content-Type": "application/json"
-//       }
-//     })
-//       .then(response => response.json())
-//       .then(data => {
-//         console.log(data);
-//       })
-//       .catch(error => {
-//         console.log(error);
-//       });
-//   } else {
-//     console.log("Inputs is empty");
-//   }
-// }
+function createList(titleInput) {
+    if (titleInput) {
+        fetch("http://localhost:3000/products/post/", {
+            method: "POST",
+            body: JSON.stringify({
+                title: titleInput === null || titleInput === void 0 ? void 0 : titleInput.value,
+                body: todoArray
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+            console.log(data);
+        })
+            .catch(error => {
+            console.log(error);
+        });
+    }
+    else {
+        console.log("Inputs is empty");
+    }
+}
 function logOut() {
+    if (logInForm) {
+        logInForm.style.display = "block";
+        todoContainer.style.display = "none";
+        logOutBtn.style.display = "none";
+    }
 }
