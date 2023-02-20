@@ -40,15 +40,10 @@ header {
     flex-direction: column;
   }
   
-  label {
-    margin-bottom: 10px;
-  }
-  
   input {
-    padding: 10px;
     border: none;
     border-radius: 5px;
-    margin-bottom: 20px;
+    height: 2.5em;
   }
   
     button {
@@ -70,18 +65,27 @@ header {
 
    .emojiDiv {
     background-color: none;
-    font-size: 30pt;
+    font-size: 20pt;
+  }
+
+  .emojiDiv:hover {
+    font-size: 25pt;
   }
 
   .colorPicker {
+    border-radius: 5em;
     background-color: white;
-    width: 50px;
+    width: 26px;
+    height: 26px;
   }
 
   .bodyContainer {
     position: relative;
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
 
   }
 

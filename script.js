@@ -115,7 +115,7 @@ function succesess() {
         body.innerText = "Todo: ";
         const bodyInput = document.createElement("input");
         bodyInput.setAttribute("class", "bodyInput");
-        const emojiDiv = document.createElement("div");
+        const emojiDiv = document.createElement("p");
         emojiDiv.setAttribute("class", "emojiDiv");
         fetch("https://emoji-api.com/emojis/winking-face-with-tongue?access_key=50ba7358ffceaa5c8a0cc996ecc01b052e4d7ceb")
             .then(response => response.json())
@@ -124,10 +124,10 @@ function succesess() {
                 emojiDiv.innerText = emoji.character;
             }
         });
-        emojiDiv.addEventListener("mouseenter", () => { getEmoji(bodyContainer, emojiDiv); });
+        emojiDiv.addEventListener("click", () => { getEmoji(bodyContainer, emojiDiv); });
         const colorPicker = document.createElement("div");
         colorPicker.setAttribute("class", "colorPicker");
-        colorPicker.addEventListener("mouseenter", () => { getColor(bodyContainer, colorPicker); });
+        colorPicker.addEventListener("click", () => { getColor(bodyContainer, colorPicker); });
         const addTodoBtn = document.createElement("button");
         addTodoBtn.setAttribute("class", "todoBtn");
         addTodoBtn.setAttribute("type", "button");
