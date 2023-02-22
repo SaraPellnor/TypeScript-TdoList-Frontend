@@ -15,31 +15,33 @@
 
 <body>
     <header>My Todos</header>
-    <div class="loginContainer">
-        <form>
-            <label for="username">Användarnamn</label>
-            <input type="text" id="username" name="username">
+    <main>
+        <div class="loginContainer">
+            <form>
+                <label for="username">Användarnamn</label>
+                <input type="text" id="username" name="username">
 
-            <label for="password">Lösenord</label>
-            <input type="password" id="password" name="password">
+                <label for="password">Lösenord</label>
+                <input type="password" id="password" name="password">
 
-            <button onclick = logIn() type="button">Logga in</button>
-        </form>
-        <p>Har du inte registrerat dig än? <a href="#">Registrera dig här</a></p>
-        <hr>
-        <form class = "registerForm">
-            <label for="newUsername">Användarnamn</label>
-            <input type="text" id="newUsername" name="newUsername">
+                <button onclick = logIn() type="button">Logga in</button>
+            </form>
+            <p>Har du inte registrerat dig än? <a href="#">Registrera dig här</a></p>
+            <hr>
+            <form class = "registerForm">
+                <label for="newUsername">Användarnamn</label>
+                <input type="text" id="newUsername" name="newUsername">
 
-            <label for="newPassword">Lösenord</label>
-            <input type="password" id="newPassword" name="newPassword">
+                <label for="newPassword">Lösenord</label>
+                <input type="password" id="newPassword" name="newPassword">
 
-            <label for="confirmPassword">Bekräfta lösenord</label>
-            <input type="password" id="confirmPassword" name="confirmPassword">
+                <label for="confirmPassword">Bekräfta lösenord</label>
+                <input type="password" id="confirmPassword" name="confirmPassword">
 
-            <button onclick = registerNewUser() type="button">Registrera</button>
-        </form>
-    </div>
+                <button onclick = registerNewUser() type="button">Registrera</button>
+            </form>
+        </div>
+    </main>
 </body>
 
 </html>

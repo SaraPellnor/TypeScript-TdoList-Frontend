@@ -2,6 +2,7 @@
 
 const logInForm: HTMLElement | null = document.querySelector(".loginContainer")
 const header: HTMLElement | null = document.querySelector("header")
+const main: HTMLElement | null = document.querySelector("main")
 
 // ----- Created global variables
 
@@ -16,27 +17,35 @@ todoContainer.setAttribute("class", "todoContainer")
 
 // - Belongs to "createTodo" Function
 const todoArray: Object[] = []
-interface todoObject {
-  todo: String,
-  emoji: String,
-  color: String
-}
 
 const todoList: HTMLElement | null = document.createElement("div")
 todoList.setAttribute("class", "todoList")
 
-const title = document.createElement("label")
+/* const title = document.createElement("label")
 title.setAttribute("class", "title")
-title.innerText = "Title: "
+title.innerText = "Title: " */
 
 const titleInput = document.createElement("input")
 titleInput.setAttribute("class", "titleInput")
+titleInput.placeholder = 'Enter List Title'
+
+const todoForm = document.createElement("div")
+todoForm.setAttribute('class', 'createTodo--Container')
+
+const hr = document.createElement("hr")
+hr.setAttribute('class', 'hr')
 
 const ul = document.createElement("ul")
 ul.setAttribute("class", "create-todo-ul")
 
-const submitBtn = document.createElement("button")
-submitBtn.setAttribute("class", "submitBtn")
+
+const newTodoItems = document.createElement("div")
+newTodoItems.setAttribute("class", "newTodoItems")
+
+
+
+
+
 
 
 // -----Function to register a new user and saves it in DB
@@ -120,14 +129,14 @@ function logIn() {
 function succesess() {
   // - Checks if logInForm is true
   if (logInForm) {
-
     // - Makes loginForm disappear and todoContainer to appear
     logInForm.style.display = "none"
     todoContainer.style.display = "block"
     logOutBtn.style.display = "block"
+    todoForm.style.display = "block"
 
     // - Creates elements
-    const todoForm = document.createElement("form")
+
 
     const bodyContainer = document.createElement("div")
     bodyContainer.setAttribute("class", "bodyContainer")
@@ -139,15 +148,18 @@ function succesess() {
     const bodyInput = document.createElement("input")
     bodyInput.setAttribute("class", "bodyInput")
 
-    const emojiDiv = document.createElement("p")
+    const emojiDiv = document.createElement("div")
+    const emojiP = document.createElement("div")
+    emojiP.setAttribute("class", "emojiP")
     emojiDiv.setAttribute("class", "emojiDiv")
     fetch("https://emoji-api.com/emojis/winking-face-with-tongue?access_key=50ba7358ffceaa5c8a0cc996ecc01b052e4d7ceb")
       .then(response => response.json())
       .then(data => {
         for (const emoji of data) {
-          emojiDiv.innerText = emoji.character
+          emojiP.innerText = emoji.character
         }
       })
+      emojiDiv.append(emojiP)
 
     emojiDiv.addEventListener("click", () => { getEmoji(bodyContainer, emojiDiv) })
 
@@ -164,10 +176,9 @@ function succesess() {
     addTodoBtn.innerText = "Add Todo"
     addTodoBtn.addEventListener("click", () => createTodo(colorPicker, bodyInput, emojiDiv))
 
-    document.body.append(todoContainer)
-    todoContainer.append(todoForm)
-    todoForm.append(/*title, titleInput,*/ bodyContainer, addTodoBtn)
     bodyContainer.append(body, bodyInput, emojiDiv, colorPicker)
+    todoForm.append(bodyContainer, addTodoBtn)
+    main?.append(todoForm)
 
   } else {
     console.log("there is no form");
@@ -246,30 +257,51 @@ async function getColor(bodyContainer: HTMLDivElement, colorPicker: HTMLDivEleme
 
 }
 
+
+// ----------------------- SUBMITBTN 
+  const submitBtn = document.createElement("button")
+  submitBtn.setAttribute("class", "submitBtn")
+  submitBtn.addEventListener("click", () => { createList(titleInput) })
+  submitBtn.innerText = 'Save List'
+  
 function createTodo(colorPicker: HTMLDivElement, bodyInput: HTMLInputElement, emojiDiv: HTMLDivElement) {
 
-  const newTodo: todoObject = {
+  const newTodo = {
     todo: bodyInput.value,
     emoji: emojiDiv.innerText,
     color: colorPicker.style.backgroundColor
   }
+  
   todoArray.push(newTodo)
-  console.log(todoArray);
+
+
 
   const li = document.createElement("li")
   li.setAttribute("class", "create-todo-li")
   li.style.color = colorPicker.style.backgroundColor
+
+  li.append(newTodo.todo, newTodo.emoji)
+  ul.append(li)
+
+
+  newTodoItems.append(hr, titleInput, ul, submitBtn)
+  todoForm.appendChild(newTodoItems)
+  }
+
+/*   const li = document.createElement("li")
+  li.setAttribute("class", "create-todo-li")
+  li.style.color = colorPicker.style.backgroundColor
+
+
 
   if (todoList) {
     todoContainer.append(todoList)
     todoList.append(title, titleInput, ul, submitBtn)
     ul.append(li)
     li.append(bodyInput.value, emojiDiv.innerText)
-  }
+  } */
 
-  submitBtn.addEventListener("click", () => { createList(titleInput) })
 
-}
 
 function createList(titleInput: HTMLInputElement) {
 
@@ -304,5 +336,7 @@ function logOut() {
     logInForm.style.display = "block"
     todoContainer.style.display = "none"
     logOutBtn.style.display = "none"
+    todoForm.style.display = "none"
+    todoForm.innerText = ""
   }
 }

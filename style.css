@@ -20,7 +20,7 @@ header {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
   
-.todoContainer, .loginContainer {
+.todoContainer, .loginContainer, .createTodo--Container {
   padding: 20px;
   width: 400px;
   margin: 0 auto;
@@ -30,7 +30,7 @@ header {
   padding: 30px;
   border-radius: 10px;
 }
-  
+
   h2 {
     margin-bottom: 20px;
   }
@@ -66,10 +66,20 @@ header {
    .emojiDiv {
     background-color: none;
     font-size: 20pt;
-  }
+    width: 2em;
+    height: 2em;
 
-  .emojiDiv:hover {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .emojiP {
+    font-size: 20pt;
+  }
+  .emojiP:hover {
     font-size: 25pt;
+    cursor: pointer;
   }
 
   .colorPicker {
@@ -87,6 +97,11 @@ header {
     justify-content: space-between;
     margin-bottom: 10px;
 
+    width: 20rem;
+    height: 5rem;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15pt;
   }
 
   .colorContaioner, .emojiContaioner {
@@ -120,4 +135,17 @@ header {
 
   .create-todo-ul {
     list-style: none;
+  padding-right: 2.5em;
+  }
+
+  .hr {
+    margin: 1rem 0 1rem 0;
+  }
+
+  .titleInput {
+    height: 1.5em;
+    background-color: rgba(20, 97, 20, 0.036);
+    color: black;
+    font-size: 10pt;
+    text-align: center;
   }
