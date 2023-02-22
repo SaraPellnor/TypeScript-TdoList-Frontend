@@ -161,8 +161,10 @@ function succesess() {
       })
       emojiDiv.append(emojiP)
 
-    emojiDiv.addEventListener("click", () => { getEmoji(bodyContainer, emojiDiv) })
+    emojiDiv.addEventListener("click", () => { getEmoji(bodyContainer, emojiP) })
 
+    const colorContainer = document.createElement("div")
+    colorContainer.setAttribute("class", "colorContainer")
     const colorPicker = document.createElement("div")
     colorPicker.setAttribute("class", "colorPicker")
 
@@ -176,7 +178,8 @@ function succesess() {
     addTodoBtn.innerText = "Add Todo"
     addTodoBtn.addEventListener("click", () => createTodo(colorPicker, bodyInput, emojiDiv))
 
-    bodyContainer.append(body, bodyInput, emojiDiv, colorPicker)
+    colorContainer.append(colorPicker)
+    bodyContainer.append(body, bodyInput, emojiDiv, colorContainer)
     todoForm.append(bodyContainer, addTodoBtn)
     main?.append(todoForm)
 
@@ -186,10 +189,12 @@ function succesess() {
   }
 }
 
-function getEmoji(bodyContainer: HTMLDivElement, emojiDiv: HTMLDivElement) {
-  const emojiContaioner = document.createElement("div")
-  emojiContaioner.setAttribute("class", "emojiContaioner")
-  emojiContaioner.innerHTML = ""
+const emojiContainer = document.createElement("div")
+  emojiContainer.setAttribute("class", "emojiContainer")
+
+function getEmoji(bodyContainer: HTMLDivElement, emojiP: HTMLDivElement) {
+  emojiContainer.style.display = "block"
+  emojiContainer.innerHTML = ""
 
   fetch("https://emoji-api.com/categories/smileys-emotion?access_key=50ba7358ffceaa5c8a0cc996ecc01b052e4d7ceb")
     .then(response => response.json())
@@ -202,25 +207,29 @@ function getEmoji(bodyContainer: HTMLDivElement, emojiDiv: HTMLDivElement) {
         btn.addEventListener("click", () => {
 
 
-          emojiDiv.innerHTML = element.character
+          emojiP.innerHTML = element.character
         })
 
 
         btn.innerText = element.character
-        emojiContaioner.append(btn)
-        bodyContainer.append(emojiContaioner)
+        emojiContainer.append(btn)
+        bodyContainer.append(emojiContainer)
       });
     })
 
-  emojiContaioner.addEventListener("mouseleave", () => {
-    emojiContaioner.style.display = "none"
+    emojiContainer.addEventListener("mouseleave", () => {
+      emojiContainer.style.display = "none"
+      emojiContainer.innerHTML = ""
+
   })
 }
 
+const colorPalette = document.createElement("div")
+colorPalette.setAttribute("class", "colorPalette")
+
 async function getColor(bodyContainer: HTMLDivElement, colorPicker: HTMLDivElement) {
-  const colorContainer = document.createElement("div")
-  colorContainer.setAttribute("class", "colorContaioner")
-  colorContainer.innerHTML = ""
+  colorPalette.style.display = "block"
+  colorPalette.innerHTML = ""
 
 
   const response = await fetch("./colors.json")
@@ -244,14 +253,15 @@ async function getColor(bodyContainer: HTMLDivElement, colorPicker: HTMLDivEleme
 
 
       btn.style.backgroundColor = color
-      colorContainer.append(btn)
-      bodyContainer.append(colorContainer)
+      colorPalette.append(btn)
+      bodyContainer.append(colorPalette)
     })
   })
 
 
-  colorContainer.addEventListener("mouseleave", () => {
-    colorContainer.style.display = "none"
+  colorPalette.addEventListener("mouseleave", () => {
+    colorPalette.style.display = "none"
+    colorPalette.innerHTML = ""
   })
 
 
@@ -261,7 +271,7 @@ async function getColor(bodyContainer: HTMLDivElement, colorPicker: HTMLDivEleme
 // ----------------------- SUBMITBTN 
   const submitBtn = document.createElement("button")
   submitBtn.setAttribute("class", "submitBtn")
-  submitBtn.addEventListener("click", () => { createList(titleInput) })
+  submitBtn.addEventListener("click", () => { saveList(titleInput) })
   submitBtn.innerText = 'Save List'
   
 function createTodo(colorPicker: HTMLDivElement, bodyInput: HTMLInputElement, emojiDiv: HTMLDivElement) {
@@ -303,7 +313,7 @@ function createTodo(colorPicker: HTMLDivElement, bodyInput: HTMLInputElement, em
 
 
 
-function createList(titleInput: HTMLInputElement) {
+function saveList(titleInput: HTMLInputElement) {
 
   if (titleInput) {
 

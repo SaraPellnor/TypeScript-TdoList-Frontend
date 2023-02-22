@@ -18,6 +18,7 @@ header {
   background-color: #1d1d1d;
   padding: 20px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1;
 }
   
 .todoContainer, .loginContainer, .createTodo--Container {
@@ -77,16 +78,32 @@ header {
   .emojiP {
     font-size: 20pt;
   }
+
   .emojiP:hover {
     font-size: 25pt;
     cursor: pointer;
   }
 
+  .colorContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 53.3px;
+    height: 53.3px;
+    padding-top: 4px; 
+  }
   .colorPicker {
+    border: solid 1px black;
     border-radius: 5em;
     background-color: white;
     width: 26px;
     height: 26px;
+  }
+
+  .colorPicker:hover {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
   }
 
   .bodyContainer {
@@ -104,7 +121,7 @@ header {
     font-size: 15pt;
   }
 
-  .colorContaioner, .emojiContaioner {
+  .colorPalette, .emojiContainer {
     background-color: white;
     position: absolute;
     top: 50px;
@@ -113,10 +130,7 @@ header {
     width: 70px;
     overflow-x: hidden;
     overflow-y: scroll;
-    
-
-
-  }
+}
 
   .colorContaioner {
     height: 100px;
@@ -124,13 +138,19 @@ header {
     left: 330px;
   }
 
-  .emojiContaioner button {
+  .emojiContainer button {
     background-color: white;
     font-size: 20pt;
   }
 
   .colorBtn {
     border: 1px solid black;
+    border-radius: 5em;
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+
+
   }
 
   .create-todo-ul {

@@ -133,7 +133,9 @@ function succesess() {
             }
         });
         emojiDiv.append(emojiP);
-        emojiDiv.addEventListener("click", () => { getEmoji(bodyContainer, emojiDiv); });
+        emojiDiv.addEventListener("click", () => { getEmoji(bodyContainer, emojiP); });
+        const colorContainer = document.createElement("div");
+        colorContainer.setAttribute("class", "colorContainer");
         const colorPicker = document.createElement("div");
         colorPicker.setAttribute("class", "colorPicker");
         colorPicker.addEventListener("click", () => { getColor(bodyContainer, colorPicker); });
@@ -142,7 +144,8 @@ function succesess() {
         addTodoBtn.setAttribute("type", "button");
         addTodoBtn.innerText = "Add Todo";
         addTodoBtn.addEventListener("click", () => createTodo(colorPicker, bodyInput, emojiDiv));
-        bodyContainer.append(body, bodyInput, emojiDiv, colorPicker);
+        colorContainer.append(colorPicker);
+        bodyContainer.append(body, bodyInput, emojiDiv, colorContainer);
         todoForm.append(bodyContainer, addTodoBtn);
         main === null || main === void 0 ? void 0 : main.append(todoForm);
     }
@@ -150,10 +153,11 @@ function succesess() {
         console.log("there is no form");
     }
 }
-function getEmoji(bodyContainer, emojiDiv) {
-    const emojiContaioner = document.createElement("div");
-    emojiContaioner.setAttribute("class", "emojiContaioner");
-    emojiContaioner.innerHTML = "";
+const emojiContainer = document.createElement("div");
+emojiContainer.setAttribute("class", "emojiContainer");
+function getEmoji(bodyContainer, emojiP) {
+    emojiContainer.style.display = "block";
+    emojiContainer.innerHTML = "";
     fetch("https://emoji-api.com/categories/smileys-emotion?access_key=50ba7358ffceaa5c8a0cc996ecc01b052e4d7ceb")
         .then(response => response.json())
         .then(data => {
@@ -162,22 +166,24 @@ function getEmoji(bodyContainer, emojiDiv) {
             btn.setAttribute("class", "emojiBtn");
             btn.setAttribute("type", "button");
             btn.addEventListener("click", () => {
-                emojiDiv.innerHTML = element.character;
+                emojiP.innerHTML = element.character;
             });
             btn.innerText = element.character;
-            emojiContaioner.append(btn);
-            bodyContainer.append(emojiContaioner);
+            emojiContainer.append(btn);
+            bodyContainer.append(emojiContainer);
         });
     });
-    emojiContaioner.addEventListener("mouseleave", () => {
-        emojiContaioner.style.display = "none";
+    emojiContainer.addEventListener("mouseleave", () => {
+        emojiContainer.style.display = "none";
+        emojiContainer.innerHTML = "";
     });
 }
+const colorPalette = document.createElement("div");
+colorPalette.setAttribute("class", "colorPalette");
 function getColor(bodyContainer, colorPicker) {
     return __awaiter(this, void 0, void 0, function* () {
-        const colorContainer = document.createElement("div");
-        colorContainer.setAttribute("class", "colorContaioner");
-        colorContainer.innerHTML = "";
+        colorPalette.style.display = "block";
+        colorPalette.innerHTML = "";
         const response = yield fetch("./colors.json");
         const data = yield response.json();
         yield [data].forEach((element) => {
@@ -189,19 +195,20 @@ function getColor(bodyContainer, colorPicker) {
                     colorPicker.style.backgroundColor = color;
                 });
                 btn.style.backgroundColor = color;
-                colorContainer.append(btn);
-                bodyContainer.append(colorContainer);
+                colorPalette.append(btn);
+                bodyContainer.append(colorPalette);
             });
         });
-        colorContainer.addEventListener("mouseleave", () => {
-            colorContainer.style.display = "none";
+        colorPalette.addEventListener("mouseleave", () => {
+            colorPalette.style.display = "none";
+            colorPalette.innerHTML = "";
         });
     });
 }
 // ----------------------- SUBMITBTN 
 const submitBtn = document.createElement("button");
 submitBtn.setAttribute("class", "submitBtn");
-submitBtn.addEventListener("click", () => { createList(titleInput); });
+submitBtn.addEventListener("click", () => { saveList(titleInput); });
 submitBtn.innerText = 'Save List';
 function createTodo(colorPicker, bodyInput, emojiDiv) {
     const newTodo = {
@@ -230,7 +237,7 @@ function createTodo(colorPicker, bodyInput, emojiDiv) {
     ul.append(li)
     li.append(bodyInput.value, emojiDiv.innerText)
   } */
-function createList(titleInput) {
+function saveList(titleInput) {
     if (titleInput) {
         fetch("http://localhost:3000/products/post/", {
             method: "POST",
